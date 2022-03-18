@@ -5,6 +5,7 @@ import ir.maktab.twiter.entity.Twitter;
 import ir.maktab.twiter.entity.Users;
 import ir.maktab.twiter.entity.model.CommentModel;
 import ir.maktab.twiter.service.comment.CommentService;
+import lombok.SneakyThrows;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +15,7 @@ import java.sql.SQLException;
 
 public class CommentsFrame extends JDialog implements ActionListener {
 
+    private boolean flag=true;
     private final Twitter twitter;
     private final Users users;
     private final CommentModel commentModel;
@@ -23,15 +25,19 @@ public class CommentsFrame extends JDialog implements ActionListener {
     private final JButton delete=new JButton("delete");
     private final JButton updateComment=new JButton("update comment btn");
     private final JPanel panel = new JPanel();
+    private final JButton likes = new JButton("likes");
+
     public CommentsFrame(Twitter twitter,Users users) throws SQLException {
         commentModel=new CommentModel(commentService.findAll(twitter));
         table=new JTable(commentModel);
         scrollPane=new JScrollPane(table);
         this.add(scrollPane, BorderLayout.CENTER);
-        panel.setLayout(new GridLayout(1, 2, 5, 5) );
+        panel.setLayout(new GridLayout(1, 3, 5, 5) );
         panel.add(delete);
         panel.add(updateComment);
         updateComment.addActionListener(this);
+        panel.add(likes);
+        likes.addActionListener(this);
         this.add(panel,BorderLayout.SOUTH);
         this.users=users;
         this.twitter = twitter;
@@ -41,6 +47,7 @@ public class CommentsFrame extends JDialog implements ActionListener {
         this.setVisible(true);
     }
 
+    @SneakyThrows
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==delete){
@@ -81,5 +88,20 @@ public class CommentsFrame extends JDialog implements ActionListener {
                 }
             }
         }
+        if(likes == e.getSource()){
+            if(table.getSelectedRow()<0) {
+                JOptionPane.showMessageDialog(this, "not selected");
+                return;
+            }else{
+                if(flag){
+                    commentService.like(commentModel.getComments().get(table.getSelectedRow()));
+                }else{
+                    commentService.desLike(commentModel.getComments().get(table.getSelectedRow()));
+                }
+                flag=!flag;
+                commentModel.setComments(commentService.findAll(twitter));
+            }
+        }
+
     }
 }

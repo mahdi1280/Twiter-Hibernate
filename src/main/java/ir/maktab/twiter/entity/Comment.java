@@ -24,6 +24,7 @@ public class Comment extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     private Users users;
     private boolean deleted;
+    private int likes;
 
     public Comment(String description, Date createdDate, Twitter twitter, Users users) {
         this.description = description;

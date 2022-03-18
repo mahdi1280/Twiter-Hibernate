@@ -15,4 +15,7 @@ public interface CommentServiceInterface {
 
     void update(Comment comment);
 
+    void like(Comment comment);
+
+    void desLike(Comment comment);
 }

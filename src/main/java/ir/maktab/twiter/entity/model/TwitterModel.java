@@ -20,7 +20,7 @@ public class TwitterModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 4;
+        return 5;
     }
 
 
@@ -34,6 +34,8 @@ public class TwitterModel extends AbstractTableModel {
             return "created date";
         }if(column==3){
             return "user";
+        }if(column == 4){
+            return "like";
         }
         return null;
     }
@@ -49,6 +51,8 @@ public class TwitterModel extends AbstractTableModel {
             return twitter.getCreatedDate();
         }if(columnIndex==3){
             return twitter.getUsers().getId();
+        }if(columnIndex==4){
+            return twitter.getLikes();
         }
         return null;
     }

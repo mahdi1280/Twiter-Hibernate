@@ -15,4 +15,8 @@ public interface TwitterServiceInterface {
     void delete(int id) throws SQLException;
 
     void update(Twitter twitter);
+
+    void like(Twitter twitter);
+
+    void desLike(Twitter twitter);
 }

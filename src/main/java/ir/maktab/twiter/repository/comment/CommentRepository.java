@@ -46,4 +46,24 @@ public class CommentRepository implements CommentRepositoryInterface{
         session.getTransaction().commit();
     }
 
+    @Override
+    public void like(Comment comment) {
+        Session session = MySessionFactory.openSession();
+        Comment comment1 = session.find(Comment.class, comment.getId());
+        comment1.setLikes(comment.getLikes()+1);
+        session.beginTransaction();
+        session.update(comment1);
+        session.getTransaction().commit();
+    }
+
+    @Override
+    public void desLike(Comment comment) {
+        Session session = MySessionFactory.openSession();
+        Comment comment1 = session.find(Comment.class, comment.getId());
+        comment1.setLikes(comment.getLikes()-1);
+        session.beginTransaction();
+        session.update(comment1);
+        session.getTransaction().commit();
+    }
+
 }

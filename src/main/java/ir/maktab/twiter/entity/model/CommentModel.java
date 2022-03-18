@@ -3,11 +3,10 @@ package ir.maktab.twiter.entity.model;
 import ir.maktab.twiter.entity.Comment;
 
 import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CommentModel extends AbstractTableModel {
-    private List<Comment > comments=new ArrayList<>();
+    private List<Comment > comments;
 
     public CommentModel(List<Comment> comments){
         this.comments=comments;
@@ -20,7 +19,7 @@ public class CommentModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 4 ;
+        return 6 ;
     }
 
     @Override
@@ -33,6 +32,8 @@ public class CommentModel extends AbstractTableModel {
             return "created date";
         }if(column==4){
             return "users";
+        }if(column==5){
+            return "like";
         }
         return null;
     }
@@ -46,7 +47,9 @@ public class CommentModel extends AbstractTableModel {
         }if(columnIndex ==2){
             return comment.getCreatedDate();
         }if(columnIndex==4){
-            return comment.getUsers();
+            return comment.getUsers().getId();
+        }if(columnIndex == 5){
+           return comment.getLikes();
         }
        return null;
     }

@@ -13,6 +13,7 @@ import java.sql.SQLException;
 
 public class TwitterFrame extends JFrame implements ActionListener {
 
+    private boolean flag=true;
     private final Users users;
     private final JPanel panel = new JPanel();
     private final JTable jTable;
@@ -26,7 +27,7 @@ public class TwitterFrame extends JFrame implements ActionListener {
     private final JTextField search = new JTextField();
     private final JButton usersBtn = new JButton("Users");
     private final JButton updateTwitBtn = new JButton("update Twit");
-
+    private final JButton like=new JButton("like");
     public TwitterFrame(Users users) throws SQLException {
         setFonts();
         createTwit.addActionListener(this);
@@ -42,6 +43,8 @@ public class TwitterFrame extends JFrame implements ActionListener {
         search.addActionListener(this);
         panel.add(createComment);
         panel.add(deleteTwit);
+        panel.add(like);
+        like.addActionListener(this);
         panel.add(showComments);
         panel.add(search);
         panel.add(usersBtn);
@@ -140,6 +143,19 @@ public class TwitterFrame extends JFrame implements ActionListener {
                     new UpdateTwitFrame(twitterModel.getTwitters().get(jTable.getSelectedRow()));
                     twitterModel.setTwitters(twitterService.findAll());
                 }
+            }
+        }
+        if(like== e.getSource()){
+            if (jTable.getSelectedRow() < 0) {
+                JOptionPane.showMessageDialog(this, "not selected");
+            }else{
+                if (flag)
+                 twitterService.like(twitterModel.getTwitters().get(jTable.getSelectedRow()));
+                else{
+                    twitterService.desLike(twitterModel.getTwitters().get(jTable.getSelectedRow()));
+                }
+                flag=!flag;
+                twitterModel.setTwitters(twitterService.findAll());
             }
         }
     }

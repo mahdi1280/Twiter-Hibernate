@@ -34,4 +34,14 @@ public class TwitterService implements TwitterServiceInterface{
     public void update(Twitter twitter) {
         twitterRepository.update(twitter);
     }
+
+    @Override
+    public void like(Twitter twitter) {
+        twitterRepository.like(twitter);
+    }
+
+    @Override
+    public void desLike(Twitter twitter) {
+        twitterRepository.desLike(twitter);
+    }
 }

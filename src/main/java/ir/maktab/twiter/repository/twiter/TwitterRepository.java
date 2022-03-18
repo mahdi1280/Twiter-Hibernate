@@ -27,6 +27,8 @@ public class TwitterRepository implements TwitterRepositoryInterface{
 
     @Override
     public void save(Twitter twitter) throws SQLException {
+//        twitter.setLike(0);
+        twitter.setDeleted(false);
         Session session = MySessionFactory.openSession();
         session.beginTransaction();
         session.save(twitter);
@@ -48,6 +50,26 @@ public class TwitterRepository implements TwitterRepositoryInterface{
         Session session = MySessionFactory.openSession();
         Twitter twitter1 = session.find(Twitter.class, twitter.getId());
         twitter1.setDescription(twitter.getDescription());
+        session.beginTransaction();
+        session.update(twitter1);
+        session.getTransaction().commit();
+    }
+
+    @Override
+    public void like(Twitter twitter) {
+        Session session = MySessionFactory.openSession();
+        Twitter twitter1 = session.find(Twitter.class, twitter.getId());
+        twitter1.setLikes(twitter.getLikes()+1);
+        session.beginTransaction();
+        session.update(twitter1);
+        session.getTransaction().commit();
+    }
+
+    @Override
+    public void desLike(Twitter twitter) {
+        Session session = MySessionFactory.openSession();
+        Twitter twitter1 = session.find(Twitter.class, twitter.getId());
+        twitter1.setLikes(twitter.getLikes()-1);
         session.beginTransaction();
         session.update(twitter1);
         session.getTransaction().commit();

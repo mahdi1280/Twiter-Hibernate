@@ -30,4 +30,14 @@ public class CommentService implements CommentServiceInterface{
     public void update(Comment comment) {
         commentRepository.update(comment);
     }
+
+    @Override
+    public void like(Comment comment) {
+        commentRepository.like(comment);
+    }
+
+    @Override
+    public void desLike(Comment comment) {
+        commentRepository.desLike(comment);
+    }
 }
