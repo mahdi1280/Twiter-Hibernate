@@ -3,11 +3,11 @@ package ir.maktab.twiter.entity.model;
 import ir.maktab.twiter.entity.Twitter;
 
 import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TwitterModel extends AbstractTableModel {
-    private List<Twitter> twitters=new ArrayList<>();
+
+    private List<Twitter> twitters;
 
     public TwitterModel(List<Twitter> twitters) {
         this.twitters = twitters;

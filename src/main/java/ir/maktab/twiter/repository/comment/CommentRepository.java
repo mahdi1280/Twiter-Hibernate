@@ -36,4 +36,14 @@ public class CommentRepository implements CommentRepositoryInterface{
         session.getTransaction().commit();
     }
 
+    @Override
+    public void update(Comment comment) {
+        Session session = MySessionFactory.openSession();
+        Comment comment1 = session.find(Comment.class, comment.getId());
+        comment1.setDescription(comment.getDescription());
+        session.beginTransaction();
+        session.update(comment1);
+        session.getTransaction().commit();
+    }
+
 }

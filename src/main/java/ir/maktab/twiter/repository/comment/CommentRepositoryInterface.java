@@ -13,4 +13,7 @@ public interface CommentRepositoryInterface {
     List<Comment> findAll(Twitter twitter) throws SQLException;
 
     void deleted(int id) throws SQLException;
+
+    void update(Comment comment);
+
 }

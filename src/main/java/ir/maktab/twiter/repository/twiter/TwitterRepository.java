@@ -21,7 +21,7 @@ public class TwitterRepository implements TwitterRepositoryInterface{
     public List<Twitter> search(String text) {
         Session session = MySessionFactory.openSession();
         return session.createQuery("select t from Twitter t where t.description like :description and t.deleted=false",Twitter.class)
-                .setParameter("description",text)
+                .setParameter("description","%"+text+"%")
                 .getResultList();
     }
 
@@ -36,10 +36,20 @@ public class TwitterRepository implements TwitterRepositoryInterface{
     @Override
     public void delete(int id) throws SQLException {
         Session session = MySessionFactory.openSession();
-        Comment comment = session.find(Comment.class, id);
-        comment.setDeleted(true);
+        Twitter twitter = session.find(Twitter.class, id);
+        twitter.setDeleted(true);
         session.beginTransaction();
-        session.update(comment);
+        session.update(twitter);
+        session.getTransaction().commit();
+    }
+
+    @Override
+    public void update(Twitter twitter) {
+        Session session = MySessionFactory.openSession();
+        Twitter twitter1 = session.find(Twitter.class, twitter.getId());
+        twitter1.setDescription(twitter.getDescription());
+        session.beginTransaction();
+        session.update(twitter1);
         session.getTransaction().commit();
     }
 

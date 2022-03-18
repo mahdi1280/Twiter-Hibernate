@@ -35,8 +35,7 @@ public class UsersRepository implements UserRepositoryInterFace{
 
     @Override
     public void delete(int userId) throws SQLException {
-        Session session = MySessionFactory.
-                openSession();
+        Session session = MySessionFactory.openSession();
         Users users = session.find(Users.class, userId);
         users.setDeleted(true);
         session.beginTransaction();
@@ -52,6 +51,14 @@ public class UsersRepository implements UserRepositoryInterFace{
     }
 
     @Override
+    public List<Users> findAll(Users users) {
+        Session session = MySessionFactory.openSession();
+        return session.createQuery("select u from Users u where u.deleted=false and u.id<>:userId",Users.class)
+                .setParameter("userId",users.getId())
+                .getResultList();
+    }
+
+    @Override
     public Users findById(int userId){
         Session session = MySessionFactory.openSession();
         Users users = session.find(Users.class, userId);
@@ -63,7 +70,7 @@ public class UsersRepository implements UserRepositoryInterFace{
     @Override
     public Users login(String username, String password) {
         Session session = MySessionFactory.openSession();
-        List<Users> resultList = session.createQuery("select u from Users u where u.username =:username and u.password =:password", Users.class)
+        List<Users> resultList = session.createQuery("select u from Users u where u.username =:username and u.password =:password and u.deleted=false", Users.class)
                 .setParameter("username", username)
                 .setParameter("password", password)
                 .getResultList();

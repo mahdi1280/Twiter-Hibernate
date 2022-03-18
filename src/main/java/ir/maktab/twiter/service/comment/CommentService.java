@@ -25,4 +25,9 @@ public class CommentService implements CommentServiceInterface{
     public void delete(int id) throws SQLException {
         commentRepository.deleted(id);
     }
+
+    @Override
+    public void update(Comment comment) {
+        commentRepository.update(comment);
+    }
 }

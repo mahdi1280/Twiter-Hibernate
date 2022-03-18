@@ -15,6 +15,8 @@ public interface UserRepositoryInterFace {
 
     List<Users> findAll();
 
+    List<Users> findAll(Users users);
+
     Users findById(int userId) throws SQLException;
 
     Users login(String username,String password) throws SQLException;

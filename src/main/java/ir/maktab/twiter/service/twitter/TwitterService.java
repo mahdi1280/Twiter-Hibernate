@@ -29,4 +29,9 @@ public class TwitterService implements TwitterServiceInterface{
     public void delete(int id) throws SQLException {
         twitterRepository.delete(id);
     }
+
+    @Override
+    public void update(Twitter twitter) {
+        twitterRepository.update(twitter);
+    }
 }

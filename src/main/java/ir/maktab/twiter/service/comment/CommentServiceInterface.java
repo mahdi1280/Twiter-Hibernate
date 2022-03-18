@@ -12,4 +12,7 @@ public interface CommentServiceInterface {
     List<Comment> findAll(Twitter twitter) throws SQLException;
 
     void delete(int id) throws SQLException;
+
+    void update(Comment comment);
+
 }

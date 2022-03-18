@@ -14,19 +14,25 @@ import java.sql.SQLException;
 
 public class CommentsFrame extends JDialog implements ActionListener {
 
-    private Twitter twitter;
-    private Users users;
-    private CommentModel commentModel;
-    private CommentService commentService=new CommentService();
-    private JTable table;
-    private JScrollPane scrollPane;
-    private JButton delete=new JButton("delete");
+    private final Twitter twitter;
+    private final Users users;
+    private final CommentModel commentModel;
+    private final CommentService commentService=new CommentService();
+    private final JTable table;
+    private final JScrollPane scrollPane;
+    private final JButton delete=new JButton("delete");
+    private final JButton updateComment=new JButton("update comment btn");
+    private final JPanel panel = new JPanel();
     public CommentsFrame(Twitter twitter,Users users) throws SQLException {
         commentModel=new CommentModel(commentService.findAll(twitter));
         table=new JTable(commentModel);
         scrollPane=new JScrollPane(table);
         this.add(scrollPane, BorderLayout.CENTER);
-        this.add(delete,BorderLayout.SOUTH);
+        panel.setLayout(new GridLayout(1, 2, 5, 5) );
+        panel.add(delete);
+        panel.add(updateComment);
+        updateComment.addActionListener(this);
+        this.add(panel,BorderLayout.SOUTH);
         this.users=users;
         this.twitter = twitter;
         delete.addActionListener(this);
@@ -50,6 +56,25 @@ public class CommentsFrame extends JDialog implements ActionListener {
 
                 try {
                     commentService.delete(comment.getId());
+                    commentModel.setComments(commentService.findAll(twitter));
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        if(updateComment == e.getSource()){
+            if(table.getSelectedRow()<0) {
+                JOptionPane.showMessageDialog(this, "not selected");
+                return;
+            }
+            else{
+                Comment comment = commentModel.getComments().get(table.getSelectedRow());
+                if(comment.getUsers().getId() != users.getId()){
+                    JOptionPane.showMessageDialog(this,"in comment male shoma nist");
+                    return;
+                }
+                try {
+                    new UpdateComment(comment);
                     commentModel.setComments(commentService.findAll(twitter));
                 } catch (SQLException ex) {
                     ex.printStackTrace();
