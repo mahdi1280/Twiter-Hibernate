@@ -30,8 +30,9 @@ public class CommentRepository implements CommentRepositoryInterface{
     public void deleted(int id) throws SQLException {
         Session session = MySessionFactory.openSession();
         Comment comment = session.find(Comment.class, id);
+        comment.setDeleted(true);
         session.beginTransaction();
-        session.delete(comment);
+        session.update(comment);
         session.getTransaction().commit();
     }
 
