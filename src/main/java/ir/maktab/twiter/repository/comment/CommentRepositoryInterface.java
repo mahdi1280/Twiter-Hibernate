@@ -19,4 +19,6 @@ public interface CommentRepositoryInterface {
     void like(Comment comment);
 
     void desLike(Comment comment);
+
+    Comment findById(int id);
 }

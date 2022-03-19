@@ -20,4 +20,6 @@ public interface UserRepositoryInterFace {
     Users findById(int userId) throws SQLException;
 
     Users login(String username,String password) throws SQLException;
+
+    void update(Users users,Users follow);
 }

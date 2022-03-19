@@ -4,7 +4,6 @@ import ir.maktab.twiter.entity.Comment;
 import ir.maktab.twiter.entity.Twitter;
 import ir.maktab.twiter.entity.Users;
 import ir.maktab.twiter.service.comment.CommentService;
-import jdk.nashorn.internal.scripts.JO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,17 +15,19 @@ import java.time.LocalDate;
 
 public class CreateCommentFrame extends JDialog implements ActionListener {
 
-    private CommentService commentService=new CommentService();
+    private final Comment comment;
     private Users users;
     private Twitter twitter;
-    private JTextArea jTextArea=new JTextArea();
-    private JButton create =new JButton("create");
+    private final CommentService commentService = new CommentService();
+    private final JTextArea jTextArea = new JTextArea();
+    private final JButton create = new JButton("create");
 
-    public CreateCommentFrame(Users users,Twitter twitter){
+    public CreateCommentFrame(Users users, Twitter twitter, Comment comment) {
+        this.comment = comment;
         setFonts();
         create.addActionListener(this);
-        this.users=users;
-        this.twitter=twitter;
+        this.users = users;
+        this.twitter = twitter;
         this.add(jTextArea, BorderLayout.CENTER);
         this.add(create, BorderLayout.SOUTH);
         this.pack();
@@ -46,7 +47,15 @@ public class CreateCommentFrame extends JDialog implements ActionListener {
                 JOptionPane.showMessageDialog(this,"is empty");
             else{
                 try {
-                    commentService.save(new Comment(jTextArea.getText(), Date.valueOf(LocalDate.now()),twitter,users));
+                    Comment comment;
+                    if (this.comment != null) {
+                        comment = new Comment(jTextArea.getText(), Date.valueOf(LocalDate.now()), twitter, users);
+                        comment.getComments().add(this.comment);
+                    }
+                    else{
+                        comment =  new Comment(jTextArea.getText(), Date.valueOf(LocalDate.now()), twitter, users);
+                    }
+                    commentService.save(comment);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }

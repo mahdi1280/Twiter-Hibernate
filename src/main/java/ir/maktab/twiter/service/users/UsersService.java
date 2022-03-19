@@ -30,5 +30,10 @@ public class UsersService implements UsersServiceInterface{
         usersRepository.delete(id);
     }
 
+    @Override
+    public void update(Users users,Users follow) {
+        usersRepository.update(users,follow);
+    }
+
 
 }

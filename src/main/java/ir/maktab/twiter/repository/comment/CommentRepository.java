@@ -66,4 +66,10 @@ public class CommentRepository implements CommentRepositoryInterface{
         session.getTransaction().commit();
     }
 
+    @Override
+    public Comment findById(int id) {
+        Session session=MySessionFactory.openSession();
+        return session.find(Comment.class,id);
+    }
+
 }

@@ -14,4 +14,6 @@ public interface UsersServiceInterface {
     List<Users> findAll(Users users);
 
     void delete(int id) throws SQLException;
+
+    void update(Users users,Users follow);
 }

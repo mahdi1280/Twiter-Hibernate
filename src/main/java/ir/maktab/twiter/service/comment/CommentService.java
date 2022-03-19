@@ -40,4 +40,9 @@ public class CommentService implements CommentServiceInterface{
     public void desLike(Comment comment) {
         commentRepository.desLike(comment);
     }
+
+    @Override
+    public Comment findById(int id) {
+        return commentRepository.findById(id);
+    }
 }

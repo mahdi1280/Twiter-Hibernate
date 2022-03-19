@@ -108,7 +108,7 @@ public class TwitterFrame extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(this, "not selected");
                 return;
             }
-            new CreateCommentFrame(users, twitterModel.getTwitters().get(jTable.getSelectedRow()));
+            new CreateCommentFrame(users, twitterModel.getTwitters().get(jTable.getSelectedRow()),null);
         }
         if (e.getSource() == showComments) {
             if (jTable.getSelectedRow() < 0) {
@@ -116,7 +116,7 @@ public class TwitterFrame extends JFrame implements ActionListener {
                 return;
             }
             try {
-                new CommentsFrame(twitterModel.getTwitters().get(jTable.getSelectedRow()), users);
+                new CommentsFrame(twitterModel.getTwitters().get(jTable.getSelectedRow()), users,null);
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }

@@ -79,4 +79,13 @@ public class UsersRepository implements UserRepositoryInterFace{
         return resultList.get(0);
     }
 
+    @Override
+    public void update(Users users,Users follow) {
+        Session session = MySessionFactory.openSession();
+        Users users1 = session.find(Users.class, users.getId());
+        users1.getFollowers().add(follow);
+        session.beginTransaction();
+        session.update(users1);
+        session.getTransaction().commit();
+    }
 }
